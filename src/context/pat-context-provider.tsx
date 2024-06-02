@@ -13,6 +13,7 @@ type TPatContext = {
     selectedPatId : string | null,
     handleChangeSelectedPatId : (id:string) => void
     selectedPat : Pat | undefined
+    noofpat : number
 }
 
 export const PatContext = createContext<TPatContext | null>(null)
@@ -24,7 +25,8 @@ export default function PatContextProvider({data,children} : PatContextProviderP
     
     //derived states
     const selectedPat = pats.find((pat) => pat.id === selectedPatId)
-    
+    const noofpat =pats.length
+
     //event handlers
     const handleChangeSelectedPatId = (id:string) =>{
         setSelectedPatId(id)
@@ -35,7 +37,8 @@ export default function PatContextProvider({data,children} : PatContextProviderP
         pats,
         selectedPatId,
         handleChangeSelectedPatId,
-        selectedPat
+        selectedPat,
+        noofpat
         }} >
       {children}
     </PatContext.Provider>

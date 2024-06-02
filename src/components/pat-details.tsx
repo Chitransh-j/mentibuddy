@@ -57,7 +57,7 @@ function OtherInfo({selectedPat} : Props){
 
 function Notes({selectedPat} : Props){
   return (
-    <section className="bg-white px-7 py-5 border text-black rounded-md mb-9 mx-8 flex-1 border-black/[0.08]">
+    <section className="bg-white px-7 py-5 border text-black rounded-md mb-9 mx-8 flex-1 border-light">
       {selectedPat?.notes}
     </section>
   )
