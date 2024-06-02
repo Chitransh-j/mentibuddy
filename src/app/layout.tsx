@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} text-sm text-slate-900 bg-[#e6f1ff] min-h-screen`}>
-
+        
         {children}  {/*  SWAP OUT THE PAGE.tsx here */}
 
       </body>

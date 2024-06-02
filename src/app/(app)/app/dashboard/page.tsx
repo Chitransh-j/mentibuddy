@@ -6,7 +6,8 @@ import SearchForm from '@/components/search-form'
 import Stats from '@/components/stats'
 import React from 'react'
 
-const Dashboard = () => {
+const Dashboard = async () => {
+
   return (
     <main>
       <div className='flex justify-between items-center text-white py-4'>
@@ -21,7 +22,7 @@ const Dashboard = () => {
  
         <div className='md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1'>
         <ContentBlock>
-          <PatList/>
+          <PatList />
         </ContentBlock>
         </div>
         <div className='md:row-start-1 md:row-span-full md:col-start-2 md:col-span-full'>

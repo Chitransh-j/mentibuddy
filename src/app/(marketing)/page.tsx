@@ -1,3 +1,4 @@
+
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -6,6 +7,7 @@ import Image from 'next/image';
 export default function Home() {
   return (
     <main className="bg-[#6094b7] min-h-screen flex lg:flex-row flex-col items-center justify-center gap-10" >
+      <div className="bg" id="vanta"></div>
       <Image src="https://bytegrad.com/course-assets/react-nextjs/petsoft-preview.png" alt="preview" width={519} height={472}/>
       <div> 
         <Logo/>
