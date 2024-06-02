@@ -10,20 +10,32 @@ type PatContextProviderProps = {
 
 type TPatContext = {
     pats : Pat[],
-    selectedPatId : string | null
+    selectedPatId : string | null,
+    handleChangeSelectedPatId : (id:string) => void
+    selectedPat : Pat | undefined
 }
 
 export const PatContext = createContext<TPatContext | null>(null)
 
 export default function PatContextProvider({data,children} : PatContextProviderProps )  {
-
+    //actual states
     const [pats, setPats] =useState(data)
-    const [selectedPatId, setSelectedPatId] = useState(null)
+    const [selectedPatId, setSelectedPatId] = useState<string | null>(null)
+    
+    //derived states
+    const selectedPat = pats.find((pat) => pat.id === selectedPatId)
+    
+    //event handlers
+    const handleChangeSelectedPatId = (id:string) =>{
+        setSelectedPatId(id)
+    }
 
   return (
     <PatContext.Provider value={{
         pats,
-        selectedPatId 
+        selectedPatId,
+        handleChangeSelectedPatId,
+        selectedPat
         }} >
       {children}
     </PatContext.Provider>
