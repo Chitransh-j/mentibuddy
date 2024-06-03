@@ -2,6 +2,7 @@
 import { usePatContext } from "@/lib/hooks";
 import { Pat } from "@/lib/types";
 import Image from "next/image";
+import PatButton from "./pat-button";
 
 
 export default function PatDetails() {
@@ -32,10 +33,16 @@ type Props ={
 }
 
 function TopBar({selectedPat}: Props){
+  const {handleCheckoutPat} = usePatContext()
   return (
     <div className="flex items-center px-8 py-5 bg-white border-b-black/[0.08]">
         <Image src={selectedPat?.imageUrl} alt="selected-img" width={75} height={75} className="h-[55px] w-[55px] rounded-full object-cover" />
         <h2 className="text-2xl font-semibold leading-7 ml-5">{selectedPat?.name}</h2>
+
+        <div className="ml-auto space-x-2">
+          <PatButton actionType="edit">Edit</PatButton>
+          <PatButton onClick={() =>{handleCheckoutPat(selectedPat?.id)}} actionType="checkout">Checkout</PatButton>
+        </div>
   </div>
 )
 }

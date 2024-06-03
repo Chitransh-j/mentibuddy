@@ -1,5 +1,6 @@
 import Branding from '@/components/branding'
 import ContentBlock from '@/components/content-block'
+import PatButton from '@/components/pat-button'
 import PatDetails from '@/components/pat-details'
 import PatList from '@/components/pat-list'
 import SearchForm from '@/components/search-form'
@@ -20,11 +21,15 @@ const Dashboard = async () => {
         <SearchForm />
         </div>
  
-        <div className='md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1'>
+        <div className='relative md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1'>
         <ContentBlock>
           <PatList />
+          <div className='absolute bottom-4 right-4'>
+          <PatButton actionType="add">{''}</PatButton>
+          </div>
         </ContentBlock>
         </div>
+        
         <div className='md:row-start-1 md:row-span-full md:col-start-2 md:col-span-full'>
         <ContentBlock>
           <PatDetails/>
