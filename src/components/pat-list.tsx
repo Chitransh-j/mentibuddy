@@ -1,5 +1,5 @@
 "use client"
-import { usePatContext } from "@/lib/hooks";
+import { usePatContext, useSearchContext } from "@/lib/hooks";
 import { Pat } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -8,10 +8,14 @@ import Image from "next/image";
 
 export default function PatList( ) {
   const {pats,selectedPatId,handleChangeSelectedPatId} = usePatContext()
+  const {searchQuery} = useSearchContext()
+
+  const filteredPats = pats.filter( (pat) => pat.name.toLowerCase().includes(searchQuery.toLowerCase()))
+
   return (
     <ul className="bg-white border-b border-black/[0.08]">
       {
-        pats.map( (pat) => (
+        filteredPats.map( (pat) => (
           <li key={pat.id}>
             <button onClick={()=>handleChangeSelectedPatId(pat.id)} className={cn("flex h-[70px] w-full cursor-pointer items-center gap-2 px-5 text-base hover:bg-[#eff1f2]  transition",{
 

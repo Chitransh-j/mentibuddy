@@ -1,8 +1,14 @@
+import { cn } from '@/lib/utils'
 import React from 'react'
 
-export default function ContentBlock({children} : {children : React.ReactNode}) {
+type ContentBlockProps = {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export default function ContentBlock({children,className} : ContentBlockProps) {
   return (
-    <div className='bg-[rgb(247,248,250)] shadow-sm rounded-md overflow-hidden h-full w-full'>
+    <div className={cn('bg-[rgb(247,248,250)] shadow-sm rounded-md overflow-hidden h-full w-full',className)}>
       {children}
     </div>
   )
