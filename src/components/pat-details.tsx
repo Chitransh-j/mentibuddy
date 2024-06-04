@@ -3,6 +3,8 @@ import { usePatContext } from "@/lib/hooks";
 import { Pat } from "@/lib/types";
 import Image from "next/image";
 import PatButton from "./pat-button";
+import checkoutPat from "@/actions/actions";
+import { useTransition } from "react";
 
 
 export default function PatDetails() {
@@ -34,6 +36,8 @@ type Props ={
 
 function TopBar({selectedPat}: Props){
   const {handleCheckoutPat} = usePatContext()
+  const [isPending,startTransition] = useTransition()
+
   return (
     <div className="flex items-center px-8 py-5 bg-white border-b-black/[0.08]">
         <Image src={selectedPat?.imageUrl} alt="selected-img" width={75} height={75} className="h-[55px] w-[55px] rounded-full object-cover" />
@@ -41,7 +45,12 @@ function TopBar({selectedPat}: Props){
 
         <div className="ml-auto flex md:flex-row flex-col gap-2 md:justify-normal justify-between">
           <PatButton actionType="edit">Edit</PatButton>
-          <PatButton onClick={() =>{handleCheckoutPat(selectedPat?.id)}} actionType="checkout">Checkout</PatButton>
+          <PatButton disabled={isPending} onClick={async () =>{ 
+            startTransition(async ()=>{
+              await checkoutPat(selectedPat.id)
+            })
+            
+            }} actionType="checkout">Checkout</PatButton>
         </div>
   </div>
 )

@@ -11,13 +11,14 @@ type PatButtonProps = {
   children: React.ReactNode;
   actionType: "edit" | "checkout" | "add"; 
   onClick?: () => void 
+  disabled?: boolean
 }
 
-export default function PatButton( {actionType,onClick,children } : PatButtonProps) {
+export default function PatButton( {disabled,actionType,onClick,children } : PatButtonProps) {
   const[isformopen, setIsFormOpen] = useState(false)
 
   if (actionType==='checkout'){
-    return <Button onClick={onClick} variant="destructive">{children}</Button>
+    return <Button onClick={onClick} disabled= {disabled} variant="destructive">{children}</Button>
   }
 
   else{

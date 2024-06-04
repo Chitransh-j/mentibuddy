@@ -1,10 +1,13 @@
 "use client"
 
 import { usePatContext } from "@/lib/hooks";
-import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
+import { addPat } from "@/actions/actions";
+import PatFormButton from "./pat-form-btn";
+import { toast } from "sonner";
+import { editPat } from "@/actions/actions";
 
 type PatFormProps = {
   actionType: "edit"| "add";
@@ -12,32 +15,28 @@ type PatFormProps = {
 }
 
 export default function PatForm({ actionType, onFormSubmission } : PatFormProps) {
-  const {handleAddPat,selectedPat,handleEditPat}  = usePatContext()
-
-  const handleSubmit= (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget) 
-    const pat = { 
-      name:formData.get("name") as string,
-      ownerName:formData.get("ownerName") as string,
-      imageUrl:formData.get("imageUrl") as string|| "https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png",
-      age: +(formData.get("age") as string),
-      notes:formData.get("notes") as string,
-    }       // basically yaha se json mil jaayega for the backend 
-
-    if (actionType==='add'){
-      handleAddPat(pat)
-    }
-    //else edit 
-    else{
-      handleEditPat(selectedPat!.id,pat)// forced typescript
-    }
-
-    onFormSubmission() // close the dialog
-  }
+  const {selectedPat}  = usePatContext()
 
   return (
-    <form action = "" onSubmit={handleSubmit} className="flex flex-col ">
+
+    <form action ={ async (formData)=>{
+      // console.log(typeof formData)
+      if (actionType==='add'){
+        const error  =  await addPat(formData)
+
+        if (error){
+          toast.warning(error.message)
+          return 
+        }
+        
+        onFormSubmission()
+      }
+      else if (actionType==='edit'){
+        const err = await editPat(selectedPat!.id,formData)
+      }
+  }} 
+
+    className="flex flex-col ">
 
       <div className="space-y-3">
         <div className="space-y-1">
@@ -65,8 +64,7 @@ export default function PatForm({ actionType, onFormSubmission } : PatFormProps)
         </div>
       </div>
 
-      <Button type="submit" className="mt-5 self-end">{actionType==="add" ? "Add New Patient" : "Save Changes"}</Button>
-  
+      <PatFormButton actiontype={actionType}/>
     </form>
   )
 }
