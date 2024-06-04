@@ -40,17 +40,12 @@ function TopBar({selectedPat}: Props){
 
   return (
     <div className="flex items-center px-8 py-5 bg-white border-b-black/[0.08]">
-        <Image src={selectedPat?.imageUrl} alt="selected-img" width={75} height={75} className="h-[55px] w-[55px] rounded-full object-cover" />
-        <h2 className="text-2xl font-semibold leading-7 md:ml-5 ml-2">{selectedPat?.name}</h2>
+        <Image src={selectedPat.imageUrl} alt="selected-img" width={75} height={75} className="h-[55px] w-[55px] rounded-full object-cover" />
+        <h2 className="text-2xl font-semibold leading-7 md:ml-5 ml-2">{selectedPat.name}</h2>
 
         <div className="ml-auto flex md:flex-row flex-col gap-2 md:justify-normal justify-between">
           <PatButton actionType="edit">Edit</PatButton>
-          <PatButton disabled={isPending} onClick={async () =>{ 
-            startTransition(async ()=>{
-              await checkoutPat(selectedPat.id)
-            })
-            
-            }} actionType="checkout">Checkout</PatButton>
+          <PatButton disabled={isPending} onClick={async ()=> handleCheckoutPat(selectedPat.id)} actionType="checkout">Checkout</PatButton>
         </div>
   </div>
 )
@@ -61,11 +56,11 @@ function OtherInfo({selectedPat} : Props){
     <div className="flex justify-around py-5 px-5 text-center ">
     <div>
       <h3 className="text-[13px] font-medium uppercase text-zinc-700">Owner Name</h3>
-      <p className="mt-1 text-md text-zinc-800">{selectedPat?.ownerName}</p>
+      <p className="mt-1 text-md text-zinc-800">{selectedPat.ownerName}</p>
     </div>
     <div className="">
       <h3 className="text-[13px] font-medium uppercase text-zinc-700">Age</h3>
-      <p className="mt-1 text-md text-zinc-800">{selectedPat?.age}</p>
+      <p className="mt-1 text-md text-zinc-800">{selectedPat.age}</p>
     </div>
   </div>
   )

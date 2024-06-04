@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import PatForm from "./pat-form";
 import { useState } from "react";
+import { flushSync } from "react-dom";
 
 type PatButtonProps = {
   children: React.ReactNode;
@@ -37,7 +38,11 @@ export default function PatButton( {disabled,actionType,onClick,children } : Pat
             <DialogTitle> {actionType ==='add' ? "Add a new Patient" : "Edit Patient"}</DialogTitle>
         </DialogHeader>
 
-        <PatForm actionType={actionType} onFormSubmission={()=>{ setIsFormOpen(false)}}/>
+        <PatForm actionType={actionType} onFormSubmission={()=>{ 
+            flushSync(() => {
+              setIsFormOpen(false)  /// so as react won't batch the multiple udating states to a single update
+            })
+        }}/>
       </DialogContent>
     </Dialog>
     )

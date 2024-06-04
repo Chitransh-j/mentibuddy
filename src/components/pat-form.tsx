@@ -6,33 +6,50 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { addPat } from "@/actions/actions";
 import PatFormButton from "./pat-form-btn";
-import { toast } from "sonner";
-import { editPat } from "@/actions/actions";
+import allowedLinks from "@/lib/allowed_links";
 
 type PatFormProps = {
   actionType: "edit"| "add";
   onFormSubmission : () => void
 }
 
+
+
+type ValidateType<T extends string> = T extends 'bytegrad.com' | 'images.unsplash.com' ? T : never;
+
+
+
+const validateImageUrl = (url: string): string => {
+  const allowedDomains = allowedLinks
+  const urlPattern = new RegExp(`^https?://(?:www\\.)?(${allowedDomains.join('|')})/`);
+  return urlPattern.test(url) ? url : "https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png";
+};
+
+
+
 export default function PatForm({ actionType, onFormSubmission } : PatFormProps) {
-  const {selectedPat}  = usePatContext()
+  const {selectedPat,handleAddPat,handleEditPat}  = usePatContext()
 
   return (
 
     <form action ={ async (formData)=>{
       // console.log(typeof formData)
-      if (actionType==='add'){
-        const error  =  await addPat(formData)
+      onFormSubmission()
 
-        if (error){
-          toast.warning(error.message)
-          return 
-        }
-        
-        onFormSubmission()
+      const patData ={
+        name : formData.get("name") as string,
+        ownerName : formData.get("ownerName")as string,
+        imageUrl : validateImageUrl(formData.get("imageUrl") as string || ""),
+        age : Number(formData.get("age")),
+        notes : formData.get("notes") as string
       }
+
+      if (actionType==='add'){
+        await handleAddPat(patData)
+      }
+
       else if (actionType==='edit'){
-        const err = await editPat(selectedPat!.id,formData)
+        await handleEditPat(selectedPat!.id,patData)
       }
   }} 
 

@@ -33,7 +33,7 @@ const pats = [
     ]
 
 async function main() {
-  console.log('start seeding')
+  console.log('Started seeding...')
 
   for (const pat of pats){
     const res = await prisma.pat.create({
@@ -42,7 +42,7 @@ async function main() {
     console.log(`Created Patient with Id : ${res.id}`)
   }
 
-  console.log('Seeding Finished')
+  console.log('Seeding Finished...')
 }
 
 main()

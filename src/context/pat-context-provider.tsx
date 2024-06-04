@@ -1,8 +1,9 @@
 "use client"
-import { addPat } from '@/actions/actions'
+import checkoutPat, { addPat, editPat } from '@/actions/actions'
 import { Pat } from '@/lib/types'
-import React, { useState } from 'react'
+import React, {useOptimistic, useState } from 'react'
 import { createContext } from 'react'
+import { toast } from 'sonner'
 
 type PatContextProviderProps = {
     data : Pat[],
@@ -10,70 +11,95 @@ type PatContextProviderProps = {
 }
 
 type TPatContext = {
-    pats : Pat[],
+    //methods
+    optimisticPats : Pat[],
+    pats: Pat[],
     selectedPatId : string | null,
+    selectedPat : Pat | undefined,
+    noofpat : number,
+    //handlers
+    handleAddPat : (newPat:Omit<Pat,'id'>) => Promise<void>,
+    handleEditPat : (patid:string,newPatData:Omit<Pat,'id'>) => Promise<void>,
+    handleCheckoutPat : (id:string) => Promise<void>,
     handleChangeSelectedPatId : (id:string) => void
-    handleCheckoutPat : (id:string) => void
-    selectedPat : Pat | undefined
-    noofpat : number
-    handleAddPat : (newPat:Omit<Pat,'id'>) => void
 }
 
 export const PatContext = createContext<TPatContext | null>(null)
 
-export default function PatContextProvider({data :pats,children} : PatContextProviderProps )  {
+export default function PatContextProvider({data,children} : PatContextProviderProps )  {
 
     //actual states
+    const [optimisticPats,setOptimisticPats] = useOptimistic(data,
+
+        (prev,{action,payload}) => {
+          switch(action){
+            case 'add':
+              return [...prev,{...payload,id:Math.random().toString()}] 
+
+            case 'edit':
+              return prev.map((pat)=>{
+                if(pat.id === payload.patid){
+                  return {...pat,...payload.newPatData}
+                }
+                return pat
+              })
+
+            case 'checkout':
+              return prev.filter((pat)=> pat.id !== payload.patid)
+              
+            default:
+              return prev
+          }
+        })
+
 
     const [selectedPatId, setSelectedPatId] = useState<string | null>(null)
     
     //derived states
 
-    const selectedPat = pats.find((pat) => pat.id === selectedPatId)
-    const noofpat = pats.length
+    const selectedPat = optimisticPats.find((pat) => pat.id === selectedPatId)
+    const noofpat = optimisticPats.length
 
     //event handlers /actions
-    const handleAddPat = async (newPat : Omit<Pat,'id'>) =>{
-      // setPats((prev) =>[
-      //   ...prev,{
-      //   id:Date.now().toString(),
-      //   ...newPat,
-      // }])
+    const handleAddPat = async (newPatData : Omit<Pat,'id'>) =>{
 
-      await addPat(newPat)
+      setOptimisticPats({action:'add',payload :newPatData})
+
+      const error  =  await addPat(newPatData)
+        if (error){
+          toast.warning(error.message)
+          return
+        }
+    }
+
+    const handleEditPat = async (patid : string ,newPatData:Omit<Pat,'id'>) =>{
+
+      setOptimisticPats({action:'edit',payload :{patid,newPatData}})
+      const error = await editPat(patid,newPatData)
+        if (error){
+          toast.warning(error.message)
+          return 
+        }
+    }
+
+    const handleCheckoutPat = async (patid:string) =>{
+        setOptimisticPats({action:'checkout',payload :{patid}})
+        await checkoutPat(patid)
+        setSelectedPatId(null) // to make sure we return to the empty view
     }
 
     const handleChangeSelectedPatId = (id:string) =>{
-        setSelectedPatId(id)
+      setSelectedPatId(id)
     } 
-
-    // const handleEditPat = (patid:string,newPatData:Omit<Pat,'id'>) =>{
-
-    //   // setPats( (prev)=> prev.map((pat) => {
-    //   //   if (pat.id===patid){
-    //   //     return {
-    //   //       id:patid,
-    //   //       ...newPatData
-    //   //     }
-    //   //   }
-    //   //   else{
-    //   //     return pat
-    //   //   }
-    //   // }))
-
-    // }
-
-    const handleCheckoutPat = (id:string) =>{
-      // setPats( pats => pats.filter((pat) => pat.id !== id))
-      setSelectedPatId(null) // to make sure we return to the empty view
-    }
 
   return (
     <PatContext.Provider value={{
-        pats,
+        pats : optimisticPats ,
+        optimisticPats,
         selectedPatId,
         handleChangeSelectedPatId,
         handleCheckoutPat,
+        handleEditPat,
         selectedPat,
         noofpat,
         handleAddPat
@@ -82,3 +108,4 @@ export default function PatContextProvider({data :pats,children} : PatContextPro
     </PatContext.Provider>
   )
 }
+
