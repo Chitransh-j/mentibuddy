@@ -16,6 +16,7 @@ type TPatContext = {
     selectedPat : Pat | undefined
     noofpat : number
     handleAddPat : (newPat:Omit<Pat,'id'>) => void
+    handleEditPat: (patid:string,newPatData:Omit<Pat,'id'>) => void
 }
 
 export const PatContext = createContext<TPatContext | null>(null)
@@ -40,7 +41,24 @@ export default function PatContextProvider({data,children} : PatContextProviderP
 
     const handleChangeSelectedPatId = (id:string) =>{
         setSelectedPatId(id)
+    } 
+
+    const handleEditPat = (patid:string,newPatData:Omit<Pat,'id'>) =>{
+
+      setPats( (prev)=> prev.map((pat) => {
+        if (pat.id===patid){
+          return {
+            id:patid,
+            ...newPatData
+          }
+        }
+        else{
+          return pat
+        }
+      }))
+
     }
+
     const handleCheckoutPat = (id:string) =>{
       setPats( pats => pats.filter((pat) => pat.id !== id))
       setSelectedPatId(null) // to make sure we return to the empty view
@@ -54,6 +72,7 @@ export default function PatContextProvider({data,children} : PatContextProviderP
         handleCheckoutPat,
         selectedPat,
         noofpat,
+        handleEditPat,
         handleAddPat
         }} >
       {children}

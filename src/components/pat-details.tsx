@@ -37,9 +37,9 @@ function TopBar({selectedPat}: Props){
   return (
     <div className="flex items-center px-8 py-5 bg-white border-b-black/[0.08]">
         <Image src={selectedPat?.imageUrl} alt="selected-img" width={75} height={75} className="h-[55px] w-[55px] rounded-full object-cover" />
-        <h2 className="text-2xl font-semibold leading-7 ml-5">{selectedPat?.name}</h2>
+        <h2 className="text-2xl font-semibold leading-7 md:ml-5 ml-2">{selectedPat?.name}</h2>
 
-        <div className="ml-auto space-x-2">
+        <div className="ml-auto flex md:flex-row flex-col gap-2 md:justify-normal justify-between">
           <PatButton actionType="edit">Edit</PatButton>
           <PatButton onClick={() =>{handleCheckoutPat(selectedPat?.id)}} actionType="checkout">Checkout</PatButton>
         </div>

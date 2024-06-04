@@ -22,15 +22,16 @@ const Dashboard = async () => {
         </div>
  
         <div className='relative md:row-start-2 md:row-span-full md:col-start-1 md:col-span-1'>
-        <ContentBlock>
+
+        <ContentBlock className='max-h-[340px] overflow-auto'>
           <PatList />
           <div className='absolute bottom-4 right-4'>
           <PatButton actionType="add">{''}</PatButton>
           </div>
         </ContentBlock>
         </div>
-        
-        <div className='md:row-start-1 md:row-span-full md:col-start-2 md:col-span-full'>
+
+        <div className='md:row-start-1 md:row-span-full md:col-start-2 md:col-span-full '>
         <ContentBlock>
           <PatDetails/>
         </ContentBlock>

@@ -8,7 +8,7 @@ type ContentBlockProps = {
 
 export default function ContentBlock({children,className} : ContentBlockProps) {
   return (
-    <div className={cn('bg-[rgb(247,248,250)] shadow-sm rounded-md overflow-hidden h-full w-full',className)}>
+    <div className={cn('bg-[rgb(247,248,250)] shadow-sm rounded-md w-full h-full ',className)}>
       {children}
     </div>
   )

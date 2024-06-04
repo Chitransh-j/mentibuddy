@@ -13,8 +13,8 @@ export default function PatList( ) {
   const filteredPats = pats.filter( (pat) => pat.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
-    <ul className="bg-white border-b border-black/[0.08]">
-      {
+    <ul className="bg-white border-b border-black/[0.08] ">
+      { 
         filteredPats.map( (pat) => (
           <li key={pat.id}>
             <button onClick={()=>handleChangeSelectedPatId(pat.id)} className={cn("flex h-[70px] w-full cursor-pointer items-center gap-2 px-5 text-base hover:bg-[#eff1f2]  transition",{
