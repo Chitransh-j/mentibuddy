@@ -1,6 +1,7 @@
 "use client"
 import checkoutPat, { addPat, editPat } from '@/actions/actions'
-import { Pat } from '@/lib/types'
+import { PatEssentials } from '@/lib/types'
+import { Pat } from '@prisma/client'
 import React, {useOptimistic, useState } from 'react'
 import { createContext } from 'react'
 import { toast } from 'sonner'
@@ -14,14 +15,14 @@ type TPatContext = {
     //methods
     optimisticPats : Pat[],
     pats: Pat[],
-    selectedPatId : string | null,
+    selectedPatId : Pat['id'] | null,
     selectedPat : Pat | undefined,
     noofpat : number,
     //handlers
-    handleAddPat : (newPat:Omit<Pat,'id'>) => Promise<void>,
-    handleEditPat : (patid:string,newPatData:Omit<Pat,'id'>) => Promise<void>,
-    handleCheckoutPat : (id:string) => Promise<void>,
-    handleChangeSelectedPatId : (id:string) => void
+    handleAddPat : (newPat: PatEssentials) => Promise<void>,
+    handleEditPat : (patid:Pat['id'],newPatData:PatEssentials) => Promise<void>,
+    handleCheckoutPat : (id:Pat['id']) => Promise<void>,
+    handleChangeSelectedPatId : (id:Pat['id']) => void
 }
 
 export const PatContext = createContext<TPatContext | null>(null)
@@ -61,7 +62,7 @@ export default function PatContextProvider({data,children} : PatContextProviderP
     const noofpat = optimisticPats.length
 
     //event handlers /actions
-    const handleAddPat = async (newPatData : Omit<Pat,'id'>) =>{
+    const handleAddPat = async (newPatData : PatEssentials) =>{
 
       setOptimisticPats({action:'add',payload :newPatData})
 
@@ -72,7 +73,7 @@ export default function PatContextProvider({data,children} : PatContextProviderP
         }
     }
 
-    const handleEditPat = async (patid : string ,newPatData:Omit<Pat,'id'>) =>{
+    const handleEditPat = async (patid : Pat['id'] ,newPatData:PatEssentials) =>{
 
       setOptimisticPats({action:'edit',payload :{patid,newPatData}})
       const error = await editPat(patid,newPatData)
@@ -82,13 +83,13 @@ export default function PatContextProvider({data,children} : PatContextProviderP
         }
     }
 
-    const handleCheckoutPat = async (patid:string) =>{
+    const handleCheckoutPat = async (patid:Pat['id']) =>{
         setOptimisticPats({action:'checkout',payload :{patid}})
         await checkoutPat(patid)
         setSelectedPatId(null) // to make sure we return to the empty view
     }
 
-    const handleChangeSelectedPatId = (id:string) =>{
+    const handleChangeSelectedPatId = (id:Pat['id']) =>{
       setSelectedPatId(id)
     } 
 

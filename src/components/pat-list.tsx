@@ -1,6 +1,5 @@
 "use client"
 import { usePatContext, useSearchContext } from "@/lib/hooks";
-import { Pat } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 

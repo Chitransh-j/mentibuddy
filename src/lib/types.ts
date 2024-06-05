@@ -1,8 +1,5 @@
-export type Pat = {
-    id :string;
-    name:string;
-    ownerName:string;
-    imageUrl:string;
-    age:number;
-    notes:string;
-};
+import {Pat} from "@prisma/client"
+
+//always derive the type from the ORM schema 
+export type PatEssentials = Omit<Pat,'id' | 'updatedAt' | 'createdAt'> 
+

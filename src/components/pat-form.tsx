@@ -81,7 +81,7 @@ export default function PatForm({ actionType, onFormSubmission } : PatFormProps)
         </div>
       </div>
 
-      <PatFormButton actiontype={actionType}/>
+      <PatFormButton actionType={actionType}/>
     </form>
   )
 }

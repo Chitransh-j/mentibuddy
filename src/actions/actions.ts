@@ -1,11 +1,12 @@
 "use server"
 import prisma from "@/lib/db"
-import { Pat } from "@/lib/types"
+import { PatEssentials } from "@/lib/types"
+import { Pat } from  "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 
   //only servers run it
-export async function addPat(pat:Omit<Pat,'id'>){
+export async function addPat(pat:PatEssentials){
     
     // console.log(formData)
 
@@ -24,7 +25,7 @@ export async function addPat(pat:Omit<Pat,'id'>){
 }
 
 
-export async function editPat(patId:string,newpatData:Omit<Pat,'id'>){
+export async function editPat(patId:Pat['id'],newpatData:PatEssentials){
 
   try{
 
@@ -44,7 +45,7 @@ export async function editPat(patId:string,newpatData:Omit<Pat,'id'>){
   }
 }
 
-export default async function checkoutPat(patId:string){
+export default async function checkoutPat(patId:Pat['id']){
 
     try{
         await prisma.pat.delete({where:{id:patId}})
