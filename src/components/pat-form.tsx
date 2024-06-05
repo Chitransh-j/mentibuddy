@@ -4,7 +4,6 @@ import { usePatContext } from "@/lib/hooks";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { addPat } from "@/actions/actions";
 import PatFormButton from "./pat-form-btn";
 import allowedLinks from "@/lib/allowed_links";
 
@@ -12,12 +11,6 @@ type PatFormProps = {
   actionType: "edit"| "add";
   onFormSubmission : () => void
 }
-
-
-
-type ValidateType<T extends string> = T extends 'bytegrad.com' | 'images.unsplash.com' ? T : never;
-
-
 
 const validateImageUrl = (url: string): string => {
   const allowedDomains = allowedLinks

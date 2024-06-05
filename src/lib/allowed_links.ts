@@ -2,7 +2,7 @@
 
 const allowedLinks: string[] = [ 
     "bytegrad.com",
-    "unsplash.com",
+    "images.unsplash.com",
     "media.licdn.com"
 ]
 
