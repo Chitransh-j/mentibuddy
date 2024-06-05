@@ -3,12 +3,16 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import marketing from '../../../public/marketing.png'
+import ParticlesComponent from '@/components/particles';
 
 export default function Home() {
   return (
-    <main className="bg-[#6094b7] min-h-screen flex lg:flex-row flex-col items-center justify-center gap-10" >
-      <div className="bg" id="vanta"></div>
-      <Image src="https://bytegrad.com/course-assets/react-nextjs/petsoft-preview.png" alt="preview" width={519} height={472}/>
+    <main className="min-h-screen flex lg:flex-row flex-col items-center justify-center gap-10" >
+      <div className="absolute inset-0 z-[-10]">
+        <ParticlesComponent />
+      </div> 
+      <Image src={marketing} alt="preview" width={519} height={472}/>
       <div> 
         <Logo/>
         <h1 className='text-5xl font-semibold my-6 max-w-[500px]'> <span className='font-extrabold'>Mind</span> Over Matter.</h1>
