@@ -52,7 +52,7 @@ function OtherInfo({selectedPat} : Props){
   return (
     <div className="flex justify-around py-5 px-5 text-center ">
     <div>
-      <h3 className="text-[13px] font-medium uppercase text-zinc-700">Owner Name</h3>
+      <h3 className="text-[13px] font-medium uppercase text-zinc-700">Condition:</h3>
       <p className="mt-1 text-md text-zinc-800">{selectedPat.ownerName}</p>
     </div>
     <div className="">
