@@ -23,7 +23,7 @@ export default function AppHeader() {
     console.log(activepathname)
   return (
     <header className='flex justify-between items center border-b border-white/10 py-2 my-2'>
-        <Logo/>
+        <Logo className=''/>
         <nav >
             <ul className='flex gap-2 text-xs'>
                 {routes.map(route =>(

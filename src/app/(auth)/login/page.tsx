@@ -1,11 +1,23 @@
+import Authform from '@/components/auth-form'
+import H1 from '@/components/h1'
+import Link from 'next/link'
 import React from 'react'
 
-const Login = () => {
+const Page = () => {
   return (
-    <div>
-      Login Page
-    </div>
+    <main>
+      <H1 className='text-center mb-6'>
+       Log In
+      </H1>
+
+      <Authform/>
+
+      <p className='mt-6 text-sm text-zinc-500 text-center'>
+         No account yet ? {" "}
+        <Link href='/signup' className='font-medium'>Sign up </Link>
+      </p>
+    </main>
   )
 }
 
-export default Login
+export default Page

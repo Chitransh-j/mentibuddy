@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import marketing from '../../../public/marketing.png'
 import ParticlesComponent from '@/components/particles';
-
 export default function Home() {
   return (
     <main className="min-h-screen flex lg:flex-row flex-col items-center justify-center gap-10" >
@@ -19,7 +18,7 @@ export default function Home() {
         <p className='text-2xl font-medium max-w-[600px] '>Use Mentibuddy to keep track of all your patients under your care. Get lifetime Access for Rs. 199/-</p>
         <div className='mt-10 space-x-3'>
           <Button asChild><Link href='/signup'>Get Started</Link></Button>
-          <Button asChild variant={'secondary'}><Link href='/signup'>Log in</Link></Button>
+          <Button asChild variant={'secondary'}><Link href='/login'>Log in</Link></Button>
         </div>
       </div>
     </main>
