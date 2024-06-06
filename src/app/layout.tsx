@@ -5,7 +5,7 @@ import "../styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MentiBuddy - a software for therapists",
+  title: "MentiBuddy - A Software for the mental coaches ",
   description: "Take care of your patients",
 };
 
