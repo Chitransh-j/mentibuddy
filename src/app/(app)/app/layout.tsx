@@ -11,7 +11,7 @@ export default async function layout( {children} : {children : React.ReactNode})
   const data = await prisma.pat.findMany({
     //where clause
   })
-  
+
   // console.log(data.length)
   return (
     <>

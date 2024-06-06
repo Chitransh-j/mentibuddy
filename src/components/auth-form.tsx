@@ -2,26 +2,37 @@ import React from 'react'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { LogIn } from '@/actions/actions'
 
-export default function Authform() {
+type  AuthFormProps  = {
+  type: 'login' | 'register'
+}
+
+export default function Authform( {type} : AuthFormProps) {
   return (
-    <form className=''>
+    <form 
+    
+    action={LogIn}
+    
+  
+    className=''>
         {/* email */}
       <div className='space-y-1'>
         <Label htmlFor='email'>Email</Label> 
-        <Input type="email" id="email" />
+        <Input type="email" name='email' id="email" />
       </div>  
-
 
       {/* password */}
       <div className='mb-4 mt-2 space-y-1'> 
         <Label htmlFor='password'>Password</Label>
-        <Input id='password' type='password'></Input>
+        <Input id='password' name='password' type='password'></Input>
       </div>
 
       {/* Submit */}
       <div className='m-auto'>
-        <Button className=''>Submit</Button>
+        <Button className=''>
+          {type === 'login' ? 'Log In' : 'Sign Up'}
+        </Button>
       </div>
     </form>
   )

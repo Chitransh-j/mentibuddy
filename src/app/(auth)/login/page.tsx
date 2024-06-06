@@ -10,7 +10,7 @@ const Page = () => {
        Log In
       </H1>
 
-      <Authform/>
+      <Authform type='login'/>
 
       <p className='mt-6 text-sm text-zinc-500 text-center'>
          No account yet ? {" "}

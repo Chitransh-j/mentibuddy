@@ -18,20 +18,24 @@ type PatFormProps = {
 }
 
 
+
 //form validation for both the client and server side 
 
 // our form handler
 export default function PatForm({ actionType, onFormSubmission } : PatFormProps) {
   const {selectedPat,handleAddPat,handleEditPat}  = usePatContext()
+
+  const defaultValues = actionType === 'edit' ? {
+    name: selectedPat?.name,
+    ownerName: selectedPat?.ownerName,
+    imageUrl: selectedPat?.imageUrl,
+    age: selectedPat?.age,
+    notes: selectedPat?.notes,
+  } : {};
+  
   const { register,getValues,trigger, formState:{errors} } = useForm<TPatForm>({
     resolver : zodResolver(patFormSchema),
-    defaultValues:{
-      name: selectedPat?.name,
-      ownerName: selectedPat?.ownerName,
-      imageUrl: selectedPat?.imageUrl,
-      age: selectedPat?.age,
-      notes: selectedPat?.notes,
-    }
+    defaultValues
   })
 
   return (

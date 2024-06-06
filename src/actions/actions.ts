@@ -1,4 +1,6 @@
 "use server"
+import { signIn } from "@/lib/auth"
+//only servers run it
 import prisma from "@/lib/db"
 import { PatEssentials } from "@/lib/types"
 import { patFormSchema } from "@/lib/validations"
@@ -6,7 +8,8 @@ import { Pat } from  "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 
-  //only servers run it
+
+// PATIENT ACTION
 export async function addPat(pat:PatEssentials){
     
     const validatedpat = patFormSchema.safeParse(pat)
@@ -74,3 +77,14 @@ export default async function checkoutPat(patId:Pat['id']){
     } 
 
 }
+
+
+/////////////////////////        LOG IN ACTION                   /////////////
+
+export async function LogIn(formData:FormData){
+    // console.log(authData)
+    const authData = Object.fromEntries(formData.entries())
+
+    await signIn('credentials',authData)
+}
+
