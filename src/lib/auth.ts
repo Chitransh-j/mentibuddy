@@ -55,13 +55,18 @@ const config = {
                 return true;
             }
             
-            if (!istryingoacessapp){
-                return true;
+            if (isLoggedIn && !istryingoacessapp){
+                return Response.redirect(new URL('/app/dashboard', request.url))
             }
 
+            if (!isLoggedIn && !istryingoacessapp){
+                return true
+            }   
+            
+            return false
         }
     }
 } satisfies NextAuthConfig
 
-export const {auth,signIn} = NextAuth(config)
+export const {auth,signIn,signOut} = NextAuth(config)
 

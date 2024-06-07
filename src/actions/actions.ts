@@ -1,5 +1,5 @@
 "use server"
-import { signIn } from "@/lib/auth"
+import { signIn, signOut } from "@/lib/auth"
 //only servers run it
 import prisma from "@/lib/db"
 import { PatEssentials } from "@/lib/types"
@@ -88,3 +88,6 @@ export async function LogIn(formData:FormData){
     await signIn('credentials',authData)
 }
 
+export async function LogOut(){
+    await signOut({redirectTo:'/'})
+}
