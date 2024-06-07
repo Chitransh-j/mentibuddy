@@ -50,7 +50,7 @@ export default function PatForm({ actionType, onFormSubmission } : PatFormProps)
       // this is for closing of the dialog 
       onFormSubmission()  
     
-      // this is parsing the form data to the PetEssentials format and passing it to the context provider
+      // this is parsing the form data to the PatEssentials format and passing it to the context provider
       const patData = getValues()
       patData.imageUrl = patData.imageUrl  || DEFAULT_PLACEHOLDER
 
