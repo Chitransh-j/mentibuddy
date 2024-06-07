@@ -10,7 +10,7 @@ const Page = () => {
        Sign Up 
       </H1>
 
-      <Authform type='signUp'/>
+      <Authform type='register'/>
 
       <p className='mt-6 text-sm text-zinc-500 text-center'>
          Already have an account? {" "}
