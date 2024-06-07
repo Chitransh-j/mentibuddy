@@ -2,7 +2,7 @@
 import { signIn, signOut } from "@/lib/auth"
 //only servers run it
 import prisma from "@/lib/db"
-import { patFormSchema } from "@/lib/validations"
+import { authSchema, patFormSchema } from "@/lib/validations"
 import { Pat } from  "@prisma/client"
 import { revalidatePath } from "next/cache"
 import bcrypt from 'bcryptjs'
@@ -96,7 +96,6 @@ export async function editPat(patId:Pat['id'],newpatData:unknown){
 }
 
 
-
 /////////////////////  CHEKCOUT PAT ACTION        /////////////////////////////
 export default async function checkoutPat(patId:Pat['id']){
 
@@ -140,8 +139,12 @@ export default async function checkoutPat(patId:Pat['id']){
 
 /////////////////////////        LOG IN ACTION                   /////////////
 
-export async function LogIn(formData:FormData){
-    // console.log(authData)
+export async function LogIn(formData:unknown){    
+    //vdaliate the onbject
+    if (!(formData instanceof FormData)){
+        return {message:'Invalid Form Data'}
+    }
+
     await signIn('credentials',formData)
 }
 
@@ -154,13 +157,26 @@ export async function LogOut(){
 
 //////////// sign in action //////////
 
-export async function signUp(formData:FormData){
+export async function signUp(formData:unknown){
     
-    const hashedPassword = await bcrypt.hash(formData.get('password') as string,10)
+    if (!(formData instanceof FormData)){
+        return {message:'Invalid Form Data'}
+    }
+
+    const formDataEntires = Object.fromEntries(formData.entries())
+    const validatedFormData = authSchema.safeParse(formDataEntires)
+
+    if (!validatedFormData.success){
+        return {message:'Invalid Form Data'}
+    }
+    
+    const hashedPassword = await bcrypt.hash(validatedFormData.data.password,10)
+    
+    const {email,password} = validatedFormData.data
 
     await prisma.user.create({
         data:{
-            email:formData.get('email') as string,
+            email,
             hashedPassword,
         }
     })
