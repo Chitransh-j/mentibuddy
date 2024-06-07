@@ -144,8 +144,7 @@ export default async function checkoutPat(patId:Pat['id']){
 /////////////////////////        LOG IN ACTION                   /////////////
 
 export async function LogIn(prevState:unknown ,formData:unknown){  
-    await sleep(1000)
-    //vdaliate the onbject
+    //valifate the onbject
     if (!(formData instanceof FormData)){
         return {message:'Invalid Form Data'}
     }
@@ -183,7 +182,6 @@ export async function LogOut(){
 
 export async function signUp(prevState: unknown,formData:unknown){
     
-    await sleep(1000)
     if (!(formData instanceof FormData)){
         return {message:'Invalid Form Data'}
         }
