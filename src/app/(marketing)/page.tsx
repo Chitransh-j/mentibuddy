@@ -8,7 +8,7 @@ import ParticlesComponent from '@/components/particles';
 export default function Home() {
   return (
     <main className="min-h-screen flex lg:flex-row flex-col items-center justify-center gap-10" >
-      <div className="absolute inset-0 z-[-10]">
+      <div className="absolute inset-0 z-[-1]">
         <ParticlesComponent />
       </div> 
       <Image src={marketing} alt="preview" width={519} height={472} priority/>
