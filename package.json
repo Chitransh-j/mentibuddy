@@ -23,6 +23,8 @@
     "@tsparticles/engine": "^3.4.0",
     "@tsparticles/react": "^3.0.0",
     "@types/three": "^0.165.0",
+    "@upstash/ratelimit": "^1.2.0",
+    "@vercel/kv": "^2.0.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
