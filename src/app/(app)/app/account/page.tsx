@@ -1,17 +1,12 @@
 import ContentBlock from '@/components/content-block'
 import H1 from '@/components/h1'
 import React from 'react'
-import {auth} from '@/lib/auth'
-import { redirect } from 'next/navigation'
 import Signout from '@/components/sign-out-btn'
+import { checkAuth } from '@/lib/server-utils'
 
 const Account =  async () => {
-  const session = await auth()
-
   //althou middleware does the auth check so we double check and satisfy typescript issues 
-  if (!session?.user){
-    redirect('/login')
-  }
+  const session = await checkAuth()
 
   return (
     <main>

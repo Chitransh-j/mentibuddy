@@ -2,16 +2,17 @@
 import { signIn, signOut } from "@/lib/auth"
 //only servers run it
 import prisma from "@/lib/db"
-import { PatEssentials } from "@/lib/types"
 import { patFormSchema } from "@/lib/validations"
 import { Pat } from  "@prisma/client"
 import { revalidatePath } from "next/cache"
-
-
+import bcrypt from 'bcryptjs'
+import { checkAuth } from "@/lib/server-utils"
 
 // PATIENT ACTION
-export async function addPat(pat:PatEssentials){
+export async function addPat(pat:unknown){
     
+    const session = await checkAuth()
+
     const validatedpat = patFormSchema.safeParse(pat)
 
     if(!validatedpat.success) {
@@ -21,11 +22,21 @@ export async function addPat(pat:PatEssentials){
     }
 
     try{ 
+
         await prisma.pat.create({
-            data: validatedpat.data
+            data: {...validatedpat.data,
+                user :{
+                    connect:{
+                        id : session.user.id
+                    }
+                }
+            }
         })
+
         revalidatePath("/app",'layout') // to re render the changed list of pats
+
     }
+
     catch(err){
         return {
             message : "Could not add patient. Please try again later"
@@ -35,8 +46,12 @@ export async function addPat(pat:PatEssentials){
 }
 
 
-export async function editPat(patId:Pat['id'],newpatData:PatEssentials){
+export async function editPat(patId:Pat['id'],newpatData:unknown){
+    
+    //login check
+    const session = await checkAuth()
 
+    //validation check
     const validatedpat = patFormSchema.safeParse(newpatData)
 
     if(!validatedpat.success) {
@@ -45,8 +60,25 @@ export async function editPat(patId:Pat['id'],newpatData:PatEssentials){
         }
     }
 
-  try{
+    //auth verification
+    const recpat = await prisma.pat.findUnique({
+        where:{
+            id:patId,
+        }
 
+    })
+
+    if (!recpat){
+        return {
+            message : "Could not find patient. Please try again later"
+        }
+    }
+
+    if (recpat.userId !== session.user.id){
+        return {message:'You are not allowed to edit this patient'}
+    }
+    //changing database
+  try{
 
       await prisma.pat.update({
           where:{id:patId},
@@ -63,8 +95,35 @@ export async function editPat(patId:Pat['id'],newpatData:PatEssentials){
   }
 }
 
+
+
+/////////////////////  CHEKCOUT PAT ACTION        /////////////////////////////
 export default async function checkoutPat(patId:Pat['id']){
 
+    //auth check 
+    const session = await checkAuth()
+
+    const recPat =await prisma.pat.findUnique({
+        where:{
+            id:patId
+        },
+        select:{
+            userId:true
+        }
+    })  
+
+    if (!recPat){
+        return {
+            message:"Could not find patient. Please try again later"
+        }
+    }
+
+    if (recPat.userId !== session.user.id){
+        return {message:'You are not allowed to delete this patient'}
+    }
+
+
+    //mutation
     try{
         await prisma.pat.delete({where:{id:patId}})
         revalidatePath("/app",'layout')
@@ -83,11 +142,28 @@ export default async function checkoutPat(patId:Pat['id']){
 
 export async function LogIn(formData:FormData){
     // console.log(authData)
-    const authData = Object.fromEntries(formData.entries())
-
-    await signIn('credentials',authData)
+    await signIn('credentials',formData)
 }
 
+
+///////////////LOG OUT ACTION /////////////////////////
 export async function LogOut(){
     await signOut({redirectTo:'/'})
+}
+
+
+//////////// sign in action //////////
+
+export async function signUp(formData:FormData){
+    
+    const hashedPassword = await bcrypt.hash(formData.get('password') as string,10)
+
+    await prisma.user.create({
+        data:{
+            email:formData.get('email') as string,
+            hashedPassword,
+        }
+    })
+
+    await signIn('credentials',formData)
 }
