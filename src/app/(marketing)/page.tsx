@@ -15,7 +15,7 @@ export default function Home() {
       <div> 
         <div className='w-24 h-24'><Logo className='w-full h-full' /></div>
         <h1 className='group text-5xl font-semibold my-6 max-w-[500px] hover:font-extralight transition'> <span className='font-extrabold'>Mind</span> Over Matter.</h1>
-        <p className='text-2xl font-medium max-w-[600px] '>Use Mentibuddy to keep track of all your patients under your care. Get lifetime Access for Rs. 199/-</p>
+        <p className='text-2xl font-medium max-w-[600px] '>Use Mentibuddy to keep track of all your patients under your care. Get Access for free of cost. </p>
         <div className='mt-10 space-x-3'>
           <Button asChild><Link href='/signup'>Get Started</Link></Button>
           <Button asChild variant={'secondary'}><Link href='/login'>Log in</Link></Button>
