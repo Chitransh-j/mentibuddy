@@ -1,4 +1,4 @@
-Mentibuddy
+# Mentibuddy
 According to Coursera, an online learning platform that partners with over 275 universities in India and abroad, there was a 230% increase in enrollment in psychology courses in India from 2018 to 2022. However, despite this surge in interest, there remains a significant lack of professional coaches and tools to support them.
 
 Mentibuddy aims to bridge this gap by providing mental coaches with a robust tool to manage their clients. With this application, coaches can maintain detailed records, monitor progress, and ensure that every client receives the best possible care.
@@ -6,6 +6,8 @@ Mentibuddy aims to bridge this gap by providing mental coaches with a robust too
 Mentibuddy is a powerful CRUD-based application designed to assist mental coaches in managing their clients effectively. This user-friendly tool provides a comprehensive dashboard that helps coaches keep track of their clients' conditions, sessions, and progress in an organized and efficient manner.
 
 
+
+## Table of Contents :
 
 - [:sparkles: Features](#sparkles-features)
 - [:v: Usage](#v-usage)
@@ -24,7 +26,7 @@ Mentibuddy is a powerful CRUD-based application designed to assist mental coache
 - Access the **dashboard** to get an overview of all your clients.
 - Use the **Add button** add new clients and log session details. Putting their images is optional (you can leave it to us if you don't have, we'll put a placeholder) 
 - On the **Side Panel** you have the list of all yours patients monitor client progress, make changes and check them out if they leave.
-- This is the list of websites from where you can import images. (For security reasons) : ["images.unsplash.com","media.licdn.com","https://i.pinimg.com"] namely Unsplash,LinkedIn and Pinterst. 
+- This is the list of websites from where you can import images. (For security reasons) : ["images.unsplash.com","media.licdn.com","i.pinimg.com"] namely Unsplash,LinkedIn and Pinterst. 
    
 ```Enjoy a streamlined process for managing client information securely and efficiently.```
 
