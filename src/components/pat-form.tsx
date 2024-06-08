@@ -84,7 +84,7 @@ export default function PatForm({ actionType, onFormSubmission } : PatFormProps)
         
         <div className="space-y-1">
           <Label htmlFor="imageUrl">Image URL</Label>
-          <Input id="imageUrl" {...register('imageUrl')}/>
+          <Input id="imageUrl" {...register('imageUrl')} placeholder="You can leave it empty."/>
           {errors.imageUrl && <p className="text-red-500">{errors.imageUrl.message}</p>}
         </div>
 
