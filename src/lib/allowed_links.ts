@@ -4,7 +4,7 @@ const allowedLinks: string[] = [
     "bytegrad.com",
     "images.unsplash.com",
     "media.licdn.com",
-    "https://i.pinimg.com"
+    "i.pinimg.com"
 ]
 
 
